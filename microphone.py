@@ -118,9 +118,11 @@ async def start_stream(mic_stream, uri):
                                 f"{transcript}, is_final {final}, speech_final {speech_final}"
                             )
                             if len(transcript.strip()) > 0:
+                                if "exit" in transcript.lower():
+                                    last_pos = transcript.lower().rfind("exit")
+                                    transcript = transcript[:last_pos]
+                                    shared["endstream"] = True
                                 print(f"{transcript}")
-                        if "exit" in transcript.lower():
-                            shared["endstream"] = True
                     except Exception as e:
                         # The above get will fail on final metadata response
                         logger.error(f"Transcript processing error {e}")
