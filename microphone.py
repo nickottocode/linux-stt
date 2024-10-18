@@ -36,10 +36,10 @@ def configure_logger(loglevel):
     # logger.addHandler(filehandle)
 
 
+### Update these to match the audio format from your microphone
 FORMAT = pyaudio.paInt16
 CHANNELS = 2
 RATE = 44100
-TIME_LIMIT = 15  # time limit in seconds
 
 frames = []
 recv_messages = []

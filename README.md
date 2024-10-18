@@ -30,6 +30,16 @@ terminator -H -e  "bash -c /full/path/to/linux-stt/speechtotext.sh; exit"
 3. Add a `.env` file with the `DEEPGRAM_API_KEY` defined.
   - No, it won't be able to read from your system environment variables.
 4. Update the script `speechtotext.sh` with the full paths to your location
+5. Update the `FORMAT`, `CHANNELS`, and `RATE` variables in `microphone.py` to match your microphone input format.
+  - If you're having trouble with the speech recognition and figuring out what those fields should be, you can try writing the captured audio to a file.  There is a `frames` buffer defined in the file that is ultimately unused.  You can write out the frames to a file and then try a few different `ffmpeg` conversions until you figure things out.  (I'm sure there's a smarter way to do this, but this is good practice with ffmpeg :D )  Put the below code in the `finally` clause after closing the microphone:
+  ```python
+        print(f"Writing frames {len(frames)}")
+        with open('microphone.raw', 'wb') as f:
+            f.write(b''.join(frames))
+            # convert to wav with
+            # ffmpeg -ar 44100 -f s16le -ac 2 -i microphone.raw -y test.wav
+```
+
 
 
 
